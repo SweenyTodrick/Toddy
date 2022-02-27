@@ -1,0 +1,22 @@
+// ==UserScript==
+
+// @name         Neopets Classic Auto Smart Haggle
+// @include      https://neopetsclassic.com/buyitem/*
+// ==/UserScript==
+
+String.prototype.repeat = function(times) {
+   return (new Array(times + 1)).join(this);
+};
+
+function smart_haggle(price){
+    return price.substring(0,2).repeat(price.length).substring(0,price.length);
+}
+
+    let wont = "I won't take less than ";
+    let regwont = /I won't take less than (.*) Neopoints/;
+    let separator = ",";
+
+if(document.body.innerHTML.indexOf(wont) > -1){
+    let haggle = document.body.innerHTML.match(regwont);
+    document.getElementsByName("offer_amount")[0].value = smart_haggle(haggle[1].replace(separator,"").trim());
+}
